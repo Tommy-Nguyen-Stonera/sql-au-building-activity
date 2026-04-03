@@ -60,11 +60,11 @@ p{margin:12px 0;font-size:15px}
 </head>
 <body>
 <div id="progress-bar"></div>
-<div style="max-width:900px;margin:20px auto;padding:20px 30px;background:#f0f4f8;border-radius:8px;text-align:center;">
-    <h3 style="color:#0f3460;margin-bottom:12px;font-size:1rem;">Download Dataset</h3>
-    <a href="https://github.com/Tommy-Nguyen-Stonera/sql-au-building-activity/raw/main/data/building_activity.csv" download style="display:inline-block;margin:5px 10px;padding:8px 20px;background:#0f3460;color:white;border-radius:4px;text-decoration:none;font-size:0.85rem;">building_activity.csv</a>
+<div style="background:#F0F4FA;border:1px solid #C5D4E8;border-radius:8px;padding:16px 20px;margin-bottom:32px;max-width:900px;margin-left:auto;margin-right:auto;">
+    <div style="font-size:10pt;font-weight:700;color:#1A3A6B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">How to use this report</div>
+    <p style="font-size:10pt;color:#444;margin-bottom:8px;">Each section covers a research question with findings and the approach I used. Scroll through or use the navigation to jump to specific sections.</p>
+    <p style="font-size:10pt;color:#444;margin-bottom:0;">Download dataset: <a href="https://github.com/Tommy-Nguyen-Stonera/sql-au-building-activity/raw/main/data/building_activity.csv" style="color:#1A3A6B;font-weight:600;text-decoration:underline;">building_activity.csv</a></p>
 </div>
-
 
 <nav id="toc"><ul>
 <li data-section="overview">Overview</li>
@@ -80,7 +80,7 @@ p{margin:12px 0;font-size:15px}
 <div class="cover">
 <h1>US Construction Spending Analysis</h1>
 <p class="subtitle">14 Years of Boom, Bust &amp; Recovery (2002–2016)</p>
-<p class="meta">Tommy Nguyen &middot; Python &middot; Pandas &middot; Matplotlib &middot; Seaborn</p>
+<p class="meta">Tommy Nguyen , Python , Pandas , Matplotlib , Seaborn</p>
 </div>
 
 <div class="wrapper">
@@ -347,7 +347,7 @@ ax.<span class="fn">bar</span>(yoy.index, yoy.values, color=colors_yoy)
 
 <div class="finding reveal">
 <div class="finding-label">Honest Self-Critique</div>
-<p>Looking back, I should have done three things differently. First, read the Census Bureau methodology note before any analysis — not after discovering the seasonal data was pre-smoothed. Second, explored regional breakdowns instead of stopping at national data. National figures smooth over significant geographic variation that would be more actionable for a sales team covering specific territories. Third, I should have attempted a simple forecasting model, even a basic linear regression on the recovery trajectory, to test whether the "slow and steady" recovery pattern could have been predicted in real-time. The analysis as it stands is descriptive — the next step is predictive.</p>
+<p>Looking back, I should have done three things differently. First, read the Census Bureau methodology note before any analysis — not after discovering the seasonal data was pre-smoothed. Second, explored regional breakdowns instead of stopping at national data. National figures smooth over significant geographic variation that would be more actionable for a sales team covering specific territories.</p>
 </div>
 
 <div class="finding reveal">
@@ -358,9 +358,8 @@ ax.<span class="fn">bar</span>(yoy.index, yoy.values, color=colors_yoy)
 </div>
 
 <div class="footer">
-<strong>Tommy Nguyen</strong> &middot; <a href="https://github.com/Tommy-Nguyen-Stonera">GitHub</a> &middot; <a href="https://tommy-nguyen-stonera.vercel.app">Portfolio</a><br>
-Data: US Census Bureau &middot; Tools: Python, Pandas, Matplotlib, Seaborn<br>
-AI Tools: AI coding assistants used for debugging and code suggestions. Analysis and interpretations are my own.
+<strong>Tommy Nguyen</strong> , <a href="https://github.com/Tommy-Nguyen-Stonera">GitHub</a> , <a href="https://tommy-nguyen-stonera.vercel.app">Portfolio</a><br>
+
 </div>
 
 <script>
@@ -377,8 +376,6 @@ const sections=Array.from(tocItems).map(li=>document.getElementById(li.dataset.s
 window.addEventListener('scroll',()=>{let current='';sections.forEach(s=>{if(s.getBoundingClientRect().top<=120)current=s.id});tocItems.forEach(li=>{li.classList.toggle('active',li.dataset.section===current)})});
 tocItems.forEach(li=>li.addEventListener('click',()=>{const el=document.getElementById(li.dataset.section);if(el)el.scrollIntoView({behavior:'smooth'})}));
 </script>
-
-
 
 </body>
 </html>
