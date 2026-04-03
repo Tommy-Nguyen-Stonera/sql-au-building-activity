@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Construction Spending Analysis (2002–2016) — Tommy Nguyen</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1A3A6B;--gold:#E8A500;--light-blue:#F0F4FA;--light-gold:#FFD055;--cream:#FFFDF0;--dark:#252423;--code-bg:#1e2a3a;--code-text:#c9d1d9}
+body{font-family:'Segoe UI',Calibri,Arial,sans-serif;color:var(--dark);line-height:1.7;background:#fff}
+code,pre,.code-block{font-family:'Cascadia Code','Consolas',monospace}
+#progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--light-gold));width:0;z-index:9999;transition:width .15s}
+#toc{position:fixed;right:24px;top:80px;width:200px;font-size:12px;z-index:100}
+#toc ul{list-style:none;border-left:2px solid var(--light-blue)}
+#toc li{padding:4px 0 4px 14px;cursor:pointer;color:#666;transition:all .2s}
+#toc li:hover{color:var(--navy)}
+#toc li.active{color:var(--navy);font-weight:700;border-left:3px solid var(--gold);margin-left:-2px}
+@media(max-width:1100px){#toc{display:none}}
+.wrapper{max-width:820px;margin:0 auto;padding:40px 48px}
+@media(max-width:860px){.wrapper{padding:24px 18px}}
+.cover{background:var(--navy);position:relative;overflow:hidden;padding:80px 48px 60px;text-align:center;color:#fff}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(232,165,0,.18),transparent 70%);z-index:1}
+.cover::after{content:'';position:absolute;inset:0;opacity:.12;background:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:0}
+.cover>*{position:relative;z-index:2}
+.cover h1{font-size:32px;font-weight:800;margin-bottom:8px}
+.cover h1::after{content:'';display:block;margin:12px auto 0;height:3px;background:var(--gold);animation:underline-grow 1s ease-out forwards;width:0}
+@keyframes underline-grow{to{width:60%}}
+.cover .subtitle{color:var(--gold);font-size:16px;margin-bottom:4px}
+.cover .meta{color:rgba(255,255,255,.6);font-size:13px}
+.stat-row{display:flex;gap:16px;margin:32px 0;flex-wrap:wrap}
+.stat{flex:1;min-width:140px;background:var(--light-blue);border-radius:8px;padding:18px;text-align:center;border-top:3px solid transparent;transition:all .25s}
+.stat:hover{border-top-color:var(--gold);transform:scale(1.04);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.stat .value{font-size:20pt;font-weight:700;color:var(--navy)}
+.stat .label{font-size:9pt;color:#888;margin-top:2px}
+.guide-box{background:var(--light-blue);border:2px solid var(--navy);border-radius:8px;padding:24px 28px;margin:32px 0}
+.guide-box h3{text-transform:uppercase;color:var(--navy);font-size:12px;letter-spacing:1.5px;margin-bottom:10px}
+.guide-box p,.guide-box li{font-size:14px;color:#444}
+.guide-box ul{padding-left:18px;margin-top:6px}
+.guide-box li{margin-bottom:4px}
+h2{font-size:16pt;font-weight:700;color:var(--navy);border-bottom:3px solid var(--gold);padding-bottom:8px;margin:48px 0 20px}
+.research-q{border:2px solid var(--navy);border-radius:8px;padding:18px 22px;margin:16px 0 20px;background:#fff}
+.research-q .rq-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--navy);font-weight:700;margin-bottom:4px}
+.research-q .rq-label::before{content:'? ';font-size:14px}
+.research-q .rq-text{font-style:italic;font-size:15px;color:var(--dark)}
+.code-ref{display:inline-block;background:var(--navy);color:#fff;font-size:10px;padding:2px 8px;border-radius:4px;margin-top:8px;font-family:'Cascadia Code','Consolas',monospace}
+p{margin:12px 0;font-size:15px}
+.code-block{background:var(--code-bg);color:var(--code-text);border-radius:8px;padding:20px 24px;margin:16px 0;overflow-x:auto;font-size:13px;line-height:1.6}
+.code-block .kw{color:#ff7b72}.code-block .fn{color:#d2a8ff}.code-block .str{color:#a5d6ff}.code-block .cm{color:#8b949e;font-style:italic}.code-block .num{color:#79c0ff}
+.finding{background:var(--cream);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:18px 22px;margin:20px 0}
+.finding .finding-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:6px}
+.finding p{margin:4px 0;font-size:14px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.finding.reveal.visible{border-left-width:4px;animation:border-grow .4s ease forwards}
+@keyframes border-grow{from{border-left-width:0}to{border-left-width:4px}}
+.footer{text-align:center;padding:48px 20px;color:#888;font-size:13px;border-top:1px solid #eee;margin-top:48px}
+.footer a{color:var(--navy)}
+@media print{#progress-bar,#toc{display:none}.reveal{opacity:1!important;transform:none!important}.cover{break-after:page}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div style="max-width:900px;margin:20px auto;padding:20px 30px;background:#f0f4f8;border-radius:8px;text-align:center;">
+    <h3 style="color:#0f3460;margin-bottom:12px;font-size:1rem;">Download Dataset</h3>
+    <a href="https://github.com/Tommy-Nguyen-Stonera/sql-au-building-activity/raw/main/data/building_activity.csv" download style="display:inline-block;margin:5px 10px;padding:8px 20px;background:#0f3460;color:white;border-radius:4px;text-decoration:none;font-size:0.85rem;">building_activity.csv</a>
+</div>
+
+
+<nav id="toc"><ul>
+<li data-section="overview">Overview</li>
+<li data-section="total-spending">Total Spending Trend</li>
+<li data-section="res-vs-nonres">Residential vs Non-Residential</li>
+<li data-section="private-public">Private vs Public</li>
+<li data-section="sector-growth">Sector Growth</li>
+<li data-section="seasonal">Seasonal Patterns</li>
+<li data-section="yoy">Year-over-Year Growth</li>
+<li data-section="process">My Thinking Process</li>
+</ul></nav>
+
+<div class="cover">
+<h1>US Construction Spending Analysis</h1>
+<p class="subtitle">14 Years of Boom, Bust &amp; Recovery (2002–2016)</p>
+<p class="meta">Tommy Nguyen &middot; Python &middot; Pandas &middot; Matplotlib &middot; Seaborn</p>
+</div>
+
+<div class="wrapper">
+
+<div class="stat-row reveal">
+<div class="stat"><div class="value">~30%</div><div class="label">Total Growth (2002–2016)</div></div>
+<div class="stat"><div class="value">-60%</div><div class="label">Residential Peak-to-Trough</div></div>
+<div class="stat"><div class="value">194%</div><div class="label">Manufacturing Sector Growth</div></div>
+<div class="stat"><div class="value">14 yrs</div><div class="label">Monthly Data Points</div></div>
+</div>
+
+<div class="guide-box">
+<h3>How to Read This Report</h3>
+<p>This report analyses 14 years of monthly US construction spending data from the Census Bureau. Each section poses a business question, walks through the Python approach I used, and presents findings with industry context.</p>
+<ul>
+<li><strong>Research Question</strong> boxes frame the business problem</li>
+<li><strong>Code blocks</strong> show the actual Python used (Pandas, Matplotlib)</li>
+<li><strong>Key Finding</strong> cards summarise the insight</li>
+<li><strong>Business Implication</strong> cards translate findings into action</li>
+</ul>
+<p>All spending figures are in millions USD (seasonally-adjusted annual rate) unless noted otherwise.</p>
+</div>
+
+<!-- Section 1 -->
+<h2 id="overview">Project Overview &amp; Approach</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">What does 14 years of construction spending data reveal about sector trends, and how can a building materials supplier use these patterns?</div>
+<span class="code-ref">analysis.py</span>
+</div>
+
+<p>In building materials sales, I feel construction spending cycles directly. When residential spending drops, tile and flooring orders drop with it. When a new hospital gets funded, the commercial team sees RFQs come through months later. I have always been curious about the numbers behind those gut feelings — how deep the GFC really cut, which sectors bounced back first, and whether the seasonal patterns I see in order books match what the national data says.</p>
+
+<p>The dataset covers January 2002 through January 2016 — a period that captures the pre-GFC boom, the crash itself, and the long recovery. It is broken down by sector (residential, commercial, manufacturing, etc.) and funding type (private vs public). The data comes from the US Census Bureau's Value of Construction Put in Place Survey.</p>
+
+<div class="code-block">
+<span class="kw">import</span> pandas <span class="kw">as</span> pd<br>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt<br>
+<span class="kw">import</span> seaborn <span class="kw">as</span> sns<br><br>
+df = pd.<span class="fn">read_csv</span>(<span class="str">"construction_spending.csv"</span>)<br>
+df[<span class="str">"date"</span>] = pd.<span class="fn">to_datetime</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;df[<span class="str">"time.year"</span>].<span class="fn">astype</span>(<span class="fn">str</span>) + <span class="str">"-"</span> + df[<span class="str">"time.month"</span>].<span class="fn">astype</span>(<span class="fn">str</span>) + <span class="str">"-01"</span><br>
+)<br>
+df = df.<span class="fn">sort_values</span>(<span class="str">"date"</span>).<span class="fn">reset_index</span>(drop=<span class="kw">True</span>)<br>
+<span class="cm"># 169 rows, date range: Jan 2002 to Jan 2016</span>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">Where I Got Stuck</div>
+<p>The CSV column names were deeply nested — things like <code>current.combined.total construction</code>. My first instinct was to rename every column, but that would have been fragile and hard to maintain. Instead, I stored the long names as constants at the top of the script (e.g., <code>TOTAL = "current.combined.total construction"</code>). Ugly but practical — and it meant every reference downstream was unambiguous. From my years in building materials, I know that naming conventions in datasets are like SKU codes: annoying but critical to get right early.</p>
+</div>
+
+<!-- Section 2 -->
+<h2 id="total-spending">Total Construction Spending Trend</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">How has total US construction spending trended over 14 years, and what does the overall trajectory look like?</div>
+<span class="code-ref">analysis.py — Chart 1</span>
+</div>
+
+<p>I started with the simplest possible view: total spending over time. The expectation was a general upward trend with some variation. What I found was more dramatic than expected.</p>
+
+<div class="code-block">
+<span class="cm"># Plot total spending with GFC annotation</span><br>
+fig, ax = plt.<span class="fn">subplots</span>()<br>
+ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[TOTAL] / <span class="num">1000</span>, color=<span class="str">"#2563EB"</span>, linewidth=<span class="num">2</span>)<br>
+gfc_low = df.<span class="fn">loc</span>[df[TOTAL].<span class="fn">idxmin</span>()]<br>
+ax.<span class="fn">annotate</span>(<span class="str">f"GFC low\n{gfc_low['date']:%b %Y}"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xy=(gfc_low[<span class="str">"date"</span>], gfc_low[TOTAL] / <span class="num">1000</span>),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arrowprops=<span class="fn">dict</span>(arrowstyle=<span class="str">"->"</span>, color=<span class="str">"grey"</span>))<br>
+ax.yaxis.<span class="fn">set_major_formatter</span>(mticker.<span class="fn">StrMethodFormatter</span>(<span class="str">"${x:,.0f}B"</span>))
+</div>
+
+<p>On paper, construction spending increased around 30% between 2002 and 2016. But that number hides a brutal downturn in the middle. The GFC caused spending to fall nearly 16% in 2009 alone, and the trough did not arrive until 2011. For anyone in the industry during that period, those numbers match the reality — projects dried up, suppliers cut headcount, and the pipeline went quiet for years.</p>
+
+<div class="finding reveal">
+<div class="finding-label">Key Finding</div>
+<p>Total spending grew ~30% over 14 years, but the path included a catastrophic collapse in the middle. By January 2016, total spending had only just surpassed its pre-crisis peak. That "30% growth" masks a lost decade of volatility.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">What I Expected vs What I Found</div>
+<p>I expected to see a gradual climb with a visible dip around 2008–2009. What I found was that the dip was not a dip at all — it was a multi-year freefall that did not bottom out until 2011. The recovery was so gradual that it took until 2015 to match 2006 levels. If someone had told me "construction spending grew 30%," I would have imagined a completely different chart.</p>
+</div>
+
+<!-- Section 3 -->
+<h2 id="res-vs-nonres">Residential vs Non-Residential Spending</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">How did the GFC reshape spending between residential and non-residential construction?</div>
+<span class="code-ref">analysis.py — Chart 2</span>
+</div>
+
+<div class="code-block">
+<span class="cm"># Stacked area chart: residential vs non-residential</span><br>
+ax.<span class="fn">stackplot</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;df[<span class="str">"date"</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;df[RES] / <span class="num">1000</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;df[NONRES] / <span class="num">1000</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;labels=[<span class="str">"Residential"</span>, <span class="str">"Non-Residential"</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors=[<span class="str">"#3B82F6"</span>, <span class="str">"#F59E0B"</span>], alpha=<span class="num">0.85</span><br>
+)
+</div>
+
+<p>Residential spending dropped roughly 60% from its 2006 peak to its 2011 trough. Non-residential construction held up much better, continuing to grow for a couple of years after residential had already started falling. This lag effect matters for building materials suppliers: it means non-residential demand can temporarily mask a downturn already underway in the residential market.</p>
+
+<p>This made me revisit the total spending chart with fresh eyes. The total line looked like it peaked in 2006, but when I separated the components, I realised residential had already been declining for a year before total spending peaked. The total figure was being propped up by non-residential. If I were watching only the headline number in 2007, I would have missed the warning.</p>
+
+<div class="finding reveal">
+<div class="finding-label">Key Finding</div>
+<p>Residential was the epicentre of the crash, dropping 60% from peak. Non-residential continued growing for two years after residential began falling — the total figure masked the early warning signs.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">Business Implication</div>
+<p>For a building materials business, diversifying across residential and commercial customers is not just a growth strategy — it is a risk management strategy. A supplier heavily concentrated in residential would have experienced a sharper revenue decline than one with a balanced book. From my years in building materials, the builders who survived 2008–2011 were the ones with both residential renovation and commercial project pipelines.</p>
+</div>
+
+<!-- Section 4 -->
+<h2 id="private-public">Private vs Public Spending</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">How does private vs public spending behave differently through economic cycles, and what role did government stimulus play?</div>
+<span class="code-ref">analysis.py — Chart 3</span>
+</div>
+
+<div class="code-block">
+<span class="cm"># Overlay private vs public spending</span><br>
+ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[PRIVATE] / <span class="num">1000</span>, label=<span class="str">"Private"</span>, color=<span class="str">"#10B981"</span>)<br>
+ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[PUBLIC] / <span class="num">1000</span>, label=<span class="str">"Public"</span>, color=<span class="str">"#EF4444"</span>)
+</div>
+
+<p>When private construction spending cratered during the GFC, public spending — highways, schools, water infrastructure — stayed relatively flat or even increased, buoyed by federal stimulus programs. Private spending accounts for roughly 75% of total construction, so it drives the overall trend. But public spending is dramatically more stable.</p>
+
+<div class="finding reveal">
+<div class="finding-label">Key Finding</div>
+<p>Public spending acted as a shock absorber during the GFC. While private construction fell sharply, government-funded projects maintained or increased spending through stimulus programs, providing a revenue floor for suppliers positioned in public-sector work.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">The Pivot Moment</div>
+<p>Initially I treated this as a simple two-line comparison. The pivot came when I realised the <em>timing</em> mattered more than the magnitude. Public spending increased precisely during 2009–2010, the worst private-sector years. That is not coincidence — it is counter-cyclical policy in action. This shifted my thinking: government contracts are not just "boring stable work." They are a structural hedge against private-market downturns. This is something I would now explicitly recommend to any supplier building their project pipeline.</p>
+</div>
+
+<!-- Section 5 -->
+<h2 id="sector-growth">Sector Growth Comparison</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">Which construction sectors grew the fastest from 2002 to 2016, and which stalled or declined?</div>
+<span class="code-ref">analysis.py — Chart 4</span>
+</div>
+
+<div class="code-block">
+<span class="cm"># Calculate growth for each sector</span><br>
+sector_data = []<br>
+<span class="kw">for</span> name, col <span class="kw">in</span> SECTORS.items():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_start = earliest[col]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;val_end = latest[col]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;growth = (val_end - val_start) / val_start * <span class="num">100</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;sector_data.<span class="fn">append</span>({<span class="str">"Sector"</span>: name, <span class="str">"Growth %"</span>: growth})<br>
+sdf = pd.<span class="fn">DataFrame</span>(sector_data).<span class="fn">sort_values</span>(<span class="str">"Growth %"</span>)<br>
+<span class="cm"># Horizontal bar chart with conditional colouring</span><br>
+colors = [<span class="str">"#EF4444"</span> <span class="kw">if</span> g &lt; <span class="num">0</span> <span class="kw">else</span> <span class="str">"#10B981"</span> <span class="kw">for</span> g <span class="kw">in</span> sdf[<span class="str">"Growth %"</span>]]<br>
+ax.<span class="fn">barh</span>(sdf[<span class="str">"Sector"</span>], sdf[<span class="str">"Growth %"</span>], color=colors)
+</div>
+
+<p>The sector-level breakdown revealed striking divergences. Manufacturing construction grew 194% over the period, and power infrastructure grew 103%. These are not the sectors most people think of when they hear "construction boom." Meanwhile, commercial construction was the only sector to decline (-3%).</p>
+
+<div class="stat-row reveal">
+<div class="stat"><div class="value">+194%</div><div class="label">Manufacturing</div></div>
+<div class="stat"><div class="value">+103%</div><div class="label">Power Infrastructure</div></div>
+<div class="stat"><div class="value">-3%</div><div class="label">Commercial (Only Decliner)</div></div>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">Key Finding</div>
+<p>Manufacturing and power infrastructure led all sectors in growth. Commercial was the only sector to decline, likely reflecting the early stages of the retail real estate contraction driven by e-commerce. The divergence between sectors is far wider than the aggregate "30% growth" number suggests.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">What I Expected vs What I Found</div>
+<p>I expected commercial construction to be somewhere near the top, given the number of new shopping centres and office buildings going up during this period. But commercial was the sole decliner at -3%. That forced me to ask: was this an early signal of the retail real estate contraction? In hindsight, with e-commerce accelerating from 2010 onward, the data was showing a structural change that most of us in the industry did not recognise at the time. Looking back, I should have cross-referenced this with retail vacancy rate data to confirm the structural shift hypothesis.</p>
+</div>
+
+<!-- Section 6 -->
+<h2 id="seasonal">Seasonal Spending Patterns</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">Is there a consistent seasonal pattern in construction spending that sales teams can plan around?</div>
+<span class="code-ref">analysis.py — Chart 5</span>
+</div>
+
+<div class="code-block">
+<span class="cm"># Average spending by calendar month</span><br>
+df[<span class="str">"month"</span>] = df[<span class="str">"date"</span>].dt.month<br>
+monthly_avg = df.<span class="fn">groupby</span>(<span class="str">"month"</span>)[TOTAL].<span class="fn">mean</span>() / <span class="num">1000</span><br>
+ax.<span class="fn">bar</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">13</span>), monthly_avg.values, color=<span class="str">"#6366F1"</span>)
+</div>
+
+<p>Spending peaks reliably between June and August and dips in January and February. The pattern holds across years, making it genuinely useful for planning. For a building materials business, Q1 is the time to build pipeline — the orders placed in March and April deliver into peak construction months.</p>
+
+<div class="finding reveal">
+<div class="finding-label">Key Finding</div>
+<p>Seasonal patterns are consistent and actionable. The June–August peak and January–February trough hold across the entire 14-year period. Marketing campaigns and sales pushes timed for March–April align with the natural ramp-up in construction activity.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">Where I Got Stuck</div>
+<p>The seasonal pattern looked surprisingly flat at first, which confused me. Then I re-read the Census Bureau methodology: the data is reported as <em>seasonally-adjusted annual rates</em>, not raw monthly figures. The seasonal adjustment removes the very signal I was looking for. The near-flat monthly pattern was partly by design. To see true seasonality, I would need the unadjusted series. I almost published this chart without that caveat, which would have been misleading. Looking back, I should have checked the data methodology note before running any seasonal analysis — that is basic due diligence I skipped in my excitement to see patterns.</p>
+</div>
+
+<!-- Section 7 -->
+<h2 id="yoy">Year-over-Year Growth Rate</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">What does the year-over-year growth trajectory tell us about recovery momentum after the GFC?</div>
+<span class="code-ref">analysis.py — Chart 6</span>
+</div>
+
+<div class="code-block">
+<span class="cm"># Year-over-year growth (exclude 2016: only has January)</span><br>
+full_years = df[df[<span class="str">"year"</span>] &lt;= <span class="num">2015</span>]<br>
+yearly = full_years.<span class="fn">groupby</span>(<span class="str">"year"</span>)[TOTAL].<span class="fn">mean</span>()<br>
+yoy = yearly.<span class="fn">pct_change</span>() * <span class="num">100</span><br>
+colors_yoy = [<span class="str">"#EF4444"</span> <span class="kw">if</span> v &lt; <span class="num">0</span> <span class="kw">else</span> <span class="str">"#10B981"</span> <span class="kw">for</span> v <span class="kw">in</span> yoy.values]<br>
+ax.<span class="fn">bar</span>(yoy.index, yoy.values, color=colors_yoy)
+</div>
+
+<p>After the sharp contraction of 2008–2010, growth turned positive in 2012 and stayed positive through 2015. But the growth rate was modest — mostly in the 4–8% range — not the kind of V-shaped recovery one might expect after such a deep decline. This gradual recovery is consistent with tight lending conditions and cautious sentiment in the construction industry post-GFC.</p>
+
+<div class="finding reveal">
+<div class="finding-label">Key Finding</div>
+<p>The YoY chart makes the recovery dynamics clear: contraction peaked at -15.7% in 2009, then growth turned positive in 2012 at a modest 4–8%. Post-downturn recoveries in construction are slow and steady, not sudden — which matters for hiring, inventory, and capex planning.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">Business Implication</div>
+<p>Anyone who assumed a quick bounce-back after the GFC would have been wrong for years. Residential spending did not return to its pre-GFC level within the dataset period. That is nearly a decade of below-peak spending — a lost decade for residential construction. For sales forecasting, this suggests conservative projections are warranted after a major downturn, even when the headline numbers are improving.</p>
+</div>
+
+<!-- Section 8 -->
+<h2 id="process">My Thinking Process &amp; Honest Reflections</h2>
+
+<div class="research-q">
+<div class="rq-label">Research Question</div>
+<div class="rq-text">What mistakes did I make, what surprised me, and what would I do differently next time?</div>
+<span class="code-ref">Retrospective</span>
+</div>
+
+<p><strong>The biggest mistake</strong> was not checking the data methodology before running the seasonal analysis. The Census Bureau reports seasonally-adjusted annual rates, which means the seasonal pattern I was looking for had already been smoothed out of the data. I spent two hours building and styling that chart before realising the signal was muted by design. The lesson: always read the data dictionary first.</p>
+
+<p><strong>A Pandas gotcha that cost me time:</strong> When building the sector growth comparison, my initial approach used <code>df.iloc[0]</code> and <code>df.iloc[-1]</code> to grab the first and last rows. This works fine <em>after</em> sorting by date, but I initially forgot to sort. The "first" row was not January 2002 — it was whatever came first in the raw CSV. The growth percentages were nonsensical until I added <code>df.sort_values("date").reset_index(drop=True)</code>. A simple mistake, but one that would have produced a convincingly wrong chart.</p>
+
+<p><strong>Matplotlib formatting:</strong> The default y-axis labels showed raw numbers like "800000" which were unreadable. I had to use <code>mticker.StrMethodFormatter("${x:,.0f}B")</code> to get clean "$800B" labels. This is boilerplate I now have in a snippet file, but the first time through it took me 20 minutes to find the right formatter class. Matplotlib's ticker API is powerful but not intuitive.</p>
+
+<p><strong>The chart that changed my thinking:</strong> The residential vs non-residential split was the pivot moment. Before that chart, I was looking at aggregate numbers and drawing aggregate conclusions. After splitting the data, I realised the aggregate masked a critical lead-lag dynamic. Residential was already in decline before total spending peaked. That insight — that the total number can be misleading because components move at different speeds — reshaped every subsequent analysis. I started asking "what does this look like when I split it?" for every metric.</p>
+
+<div class="finding reveal">
+<div class="finding-label">Honest Self-Critique</div>
+<p>Looking back, I should have done three things differently. First, read the Census Bureau methodology note before any analysis — not after discovering the seasonal data was pre-smoothed. Second, explored regional breakdowns instead of stopping at national data. National figures smooth over significant geographic variation that would be more actionable for a sales team covering specific territories. Third, I should have attempted a simple forecasting model, even a basic linear regression on the recovery trajectory, to test whether the "slow and steady" recovery pattern could have been predicted in real-time. The analysis as it stands is descriptive — the next step is predictive.</p>
+</div>
+
+<div class="finding reveal">
+<div class="finding-label">What I Would Investigate Next</div>
+<p><strong>Regional breakdown:</strong> National data smooths over significant geographic variation. The Sun Belt and Midwest likely had very different recovery curves. <strong>Leading indicators:</strong> Can building permits predict spending trends with a 6–12 month lead? <strong>Material cost correlation:</strong> When spending rises, do material costs rise with it? <strong>Post-2016 trends:</strong> Extending through 2024 would capture the post-COVID construction boom and infrastructure legislation.</p>
+</div>
+
+</div>
+
+<div class="footer">
+<strong>Tommy Nguyen</strong> &middot; <a href="https://github.com/Tommy-Nguyen-Stonera">GitHub</a> &middot; <a href="https://tommy-nguyen-stonera.vercel.app">Portfolio</a><br>
+Data: US Census Bureau &middot; Tools: Python, Pandas, Matplotlib, Seaborn<br>
+AI Tools: AI coding assistants used for debugging and code suggestions. Analysis and interpretations are my own.
+</div>
+
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{const s=document.documentElement,p=(s.scrollTop/(s.scrollHeight-s.clientHeight))*100;document.getElementById('progress-bar').style.width=p+'%'});
+
+// Reveal on scroll
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// TOC active tracking
+const tocItems=document.querySelectorAll('#toc li');
+const sections=Array.from(tocItems).map(li=>document.getElementById(li.dataset.section)).filter(Boolean);
+window.addEventListener('scroll',()=>{let current='';sections.forEach(s=>{if(s.getBoundingClientRect().top<=120)current=s.id});tocItems.forEach(li=>{li.classList.toggle('active',li.dataset.section===current)})});
+tocItems.forEach(li=>li.addEventListener('click',()=>{const el=document.getElementById(li.dataset.section);if(el)el.scrollIntoView({behavior:'smooth'})}));
+</script>
+
+
+
+</body>
+</html>

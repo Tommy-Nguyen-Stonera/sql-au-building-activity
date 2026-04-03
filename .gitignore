@@ -1,0 +1,5 @@
+*.zip
+*.xlsx
+building-activity/time-series/
+building-activity/data-cubes/
+engineering-construction/time-series/

@@ -1,0 +1,95 @@
+ABS Building & Construction Data - Downloaded 2026-03-29
+=========================================================
+
+Source: Australian Bureau of Statistics (ABS)
+Period: Latest available (Sep 2025 for Building Activity, Dec 2025 for Engineering Construction)
+
+DIRECTORY STRUCTURE
+===================
+
+building-activity/
+  time-series/          80 xlsx files (Tables 01-80) - Quarterly time series
+  data-cubes/           7 files - Cross-tabulated data cubes
+  All-Time-Series-workbooks.zip
+  All-Data-Cubes.zip
+
+engineering-construction/
+  time-series/          38 xlsx files (Tables 01-38) - Quarterly time series
+  December-2025.zip
+
+
+BUILDING ACTIVITY KEY TABLES (Cat. 8752.0)
+==========================================
+
+Work Done (Completed value of work):
+  TABLE 01 - Value of Building Work Done by Sector, Australia (Chain Volume)
+  TABLE 02 - Value of Building Work Done by Sector, States and Territories (Chain Volume)
+  TABLE 10 - Value of Building Work Done, States and Territories (Original)
+  TABLE 12-20 - Value of Building Work Done by Sector, by State (Original)
+  TABLE 32 - Value of Total Building Work Done, States and Territories
+  TABLE 40-48 - Value of Building Work by Sector, by State (Original)
+
+Work Commenced:
+  TABLE 05 - Value of Building Work Commenced by Sector, Australia (Chain Volume)
+  TABLE 06 - Value of Building Work Commenced by Sector, States and Territories (Chain Volume)
+  TABLE 11 - Value of Building Work Commenced, States and Territories (Original)
+  TABLE 30 - Value of Building Work Commenced by Sector, Australia
+  TABLE 31 - Value of Residential Building Work Commenced by Sector, Australia
+
+Dwelling Units:
+  TABLE 33 - Number of Dwelling Unit Commencements by Sector, Australia
+  TABLE 34 - Number of Dwelling Unit Commencements by Sector, States and Territories
+  TABLE 37 - Number of Dwelling Unit Completions by Sector, Australia
+  TABLE 38 - Number of Dwelling Unit Completions by Sector, States and Territories
+  TABLE 76 - Number of Dwelling Units Under Construction, Australia
+  TABLE 77 - Number of Dwelling Units Under Construction, States and Territories
+  TABLE 80 - Number of Dwellings Approved but Not Yet Commenced
+
+Work in Pipeline:
+  TABLE 49 - Value Under Construction, States and Territories
+  TABLE 50 - Value Yet to be Done, States and Territories
+  TABLE 75 - Value of Building Work Completed by Sector, Australia
+  TABLE 78 - Value of Work in the Pipeline, Australia
+  TABLE 79 - Value of Work in the Pipeline, States and Territories
+
+Residential:
+  TABLE 03-04 - Residential Work Done (Chain Volume)
+  TABLE 07-08 - Residential Work Commenced (Chain Volume)
+  TABLE 21-29 - Residential Work Done by State
+
+Non-residential:
+  TABLE 51-59 - Non-residential Work Done by State
+  TABLE 60-68 - Non-residential Work Commenced by State
+  TABLE 69-74 - Non-residential Under Construction and Yet to be Done
+
+
+ENGINEERING CONSTRUCTION KEY TABLES (Cat. 8762.0)
+==================================================
+
+  TABLE 01 - Value of Work Done, by Sector, Chain Volume, Australia
+  TABLE 02 - Value of Work Done, States and Territories, Chain Volume
+  TABLE 03 - Value of Work Done, by Sector, Australia
+  TABLE 04 - Value of Work Done, States and Territories
+  TABLE 05 - Activity, States and Territories, Original
+  TABLE 06 - Activity, Australia, Original
+  TABLE 07-09 - Private Sector (Commenced, Done, Yet To Be Done)
+  TABLE 10-11 - Public Sector Activity
+  TABLE 12-35 - State-level breakdowns (Commenced, Done, Yet To Be Done)
+  TABLE 36-38 - Cross-state summaries by sector
+
+
+RECOMMENDED TABLES FOR SQL ANALYSIS
+====================================
+
+For state-level building trends:
+  - Tables 32, 34, 38 (totals, commencements, completions by state)
+  - Tables 40-48 (work by sector by state, original prices)
+
+For NSW/Sydney stone fabrication market:
+  - Table 13 (Building Work Done, NSW)
+  - Table 22 (Residential Work Done, NSW)
+  - Table 41 (Building Work by Sector, NSW, Original)
+  - Table 52 (Non-residential Work Done, NSW)
+
+For pipeline/forward indicators:
+  - Table 78-80 (work in pipeline, approved but not commenced)
