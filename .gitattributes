@@ -1,0 +1,2 @@
+*.html linguist-documentation
+*.sql linguist-language=TSQL
