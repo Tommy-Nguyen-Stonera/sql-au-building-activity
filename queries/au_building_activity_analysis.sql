@@ -1,17 +1,17 @@
 -- ============================================================================
 -- AUSTRALIAN BUILDING ACTIVITY ANALYSIS
 -- ============================================================================
--- Dataset:   Australian Bureau of Statistics (ABS) — Building Activity Survey
+-- Dataset:   Australian Bureau of Statistics (ABS), Building Activity Survey
 --            Catalogue No. 8752.0
 -- Period:    Q1 2010 through Q3 2025 (63 quarters)
--- Source:    ABS SDMX data feed — 184,971 records
+-- Source:    ABS SDMX data feed, 184,971 records
 -- Author:    Tommy Nguyen
 --
 -- CONTEXT:
 -- The ABS Building Activity Survey measures what is physically happening on
 -- construction sites across Australia each quarter. Unlike building approvals
 -- (which measure intent), this dataset captures actual commencements, work in
--- progress, and completions — both in dollar value and dwelling unit counts.
+-- progress, and completions, in dollar value and dwelling unit counts.
 --
 -- DATA STRUCTURE:
 -- The source CSV uses ABS SDMX coded columns:
@@ -62,7 +62,7 @@
 -- ============================================================================
 -- PURPOSE:
 -- Establish the national trajectory of building activity over the full period.
--- This is the "big picture" query — how much work is being started and finished
+-- This is the "big picture" query - how much work is being started and finished
 -- each year, and is the gap between them growing or shrinking?
 --
 -- TECHNIQUE:
@@ -74,7 +74,7 @@
 -- KEY FINDING:
 -- National building work commenced grew from $89.4B in 2010 to $167.4B in 2024
 -- (87% growth in current prices). However, chain volume measures show real growth
--- from 2018-2024 was effectively zero — cost inflation consumed all nominal gains.
+-- from 2018-2024 was effectively zero, as cost inflation consumed all nominal gains.
 -- ============================================================================
 
 WITH AnnualActivity AS (
@@ -116,7 +116,7 @@ ORDER BY ActivityYear;
 
 
 -- ============================================================================
--- QUERY 2: State Comparison — Building Activity Rankings (2020-2025)
+-- QUERY 2: State Comparison - Building Activity Rankings (2020-2025)
 -- ============================================================================
 -- PURPOSE:
 -- Identify which states dominate national building activity and quantify their
@@ -177,7 +177,7 @@ ORDER BY s.TotalCommenced DESC;
 -- ============================================================================
 -- PURPOSE:
 -- Diagnose whether projects are piling up (backlog building) or getting finished
--- on schedule. A ratio above 1.0 means more work is starting than finishing —
+-- on schedule. A ratio above 1.0 means more work is starting than finishing;
 -- the pipeline is growing. Below 1.0 means the pipeline is clearing.
 --
 -- TECHNIQUE:
@@ -189,7 +189,7 @@ ORDER BY s.TotalCommenced DESC;
 -- The starts-to-completions ratio nationally spiked to 1.34 in 2021, indicating
 -- a severe pipeline jam post-COVID. Projects were starting at a normal pace but
 -- finishing much more slowly due to trade shortages and material delays. By 2024,
--- the ratio had normalised back to 1.09 — still slightly elevated, meaning the
+-- the ratio had normalised back to 1.09, still slightly elevated, meaning the
 -- backlog accumulated in 2021-22 has not fully cleared.
 -- ============================================================================
 
@@ -213,7 +213,7 @@ ORDER BY State, ActivityYear;
 
 
 -- ============================================================================
--- QUERY 4: Dwelling Type Trends — Houses vs Apartments vs Non-Residential
+-- QUERY 4: Dwelling Type Trends - Houses vs Apartments vs Non-Residential
 -- ============================================================================
 -- PURPOSE:
 -- Track how the mix of building types has shifted over time. The product mix
@@ -264,12 +264,12 @@ ORDER BY t.ActivityYear, t.Commenced DESC;
 
 
 -- ============================================================================
--- QUERY 5: Value of Work — Highest Value States and Building Types
+-- QUERY 5: Value of Work - Highest Value States and Building Types
 -- ============================================================================
 -- PURPOSE:
 -- Identify the highest-value construction segments by combining state and
 -- building type. This pinpoints exactly where the construction dollars are
--- most concentrated — critical for a materials supplier deciding where to
+-- most concentrated, which matters for a materials supplier deciding where to
 -- focus sales effort and inventory.
 --
 -- TECHNIQUE:
@@ -281,7 +281,7 @@ ORDER BY t.ActivityYear, t.Commenced DESC;
 -- The highest-value combinations are predictable but the magnitude is not.
 -- NSW and VIC residential dominate, but the gap between the top 5 and the
 -- rest is enormous. Knowing the average quarterly value helps with pipeline
--- planning — it tells you the expected run-rate, not just the cumulative total.
+-- planning, it tells you the expected run-rate, not just the cumulative total.
 -- ============================================================================
 
 SELECT
@@ -301,7 +301,7 @@ ORDER BY TotalValue_M DESC;
 -- ============================================================================
 -- PURPOSE:
 -- Detect turning points in state-level building activity. Momentum analysis
--- shows whether activity is accelerating or decelerating — a more actionable
+-- shows whether activity is accelerating or decelerating, a more actionable
 -- signal than absolute levels for timing inventory and staffing decisions.
 --
 -- TECHNIQUE:
@@ -312,7 +312,7 @@ ORDER BY TotalValue_M DESC;
 --
 -- KEY FINDING:
 -- Seasonally adjusted national commencements grew steadily from $30.1B/quarter
--- in Q2 2020 to $46.0B in Q3 2025 — but the growth rate decelerated from
+-- in Q2 2020 to $46.0B in Q3 2025, but the growth rate decelerated from
 -- ~3% per quarter in 2022-2023 to ~1.3% in early 2025. The rolling average
 -- helps distinguish genuine turning points from normal quarterly noise.
 -- ============================================================================
@@ -353,12 +353,12 @@ ORDER BY State, Quarter;
 
 
 -- ============================================================================
--- QUERY 7: Pipeline Under Construction — National and State Breakdown
+-- QUERY 7: Pipeline Under Construction - National and State Breakdown
 -- ============================================================================
 -- PURPOSE:
 -- Measure how much work is physically under construction at any point in time.
--- The pipeline is arguably the most important metric for materials demand
--- because it represents work that is actively consuming materials right now —
+-- The pipeline is the most direct metric for materials demand
+-- because it represents work that is actively consuming materials right now,
 -- not work that might start in the future or work that has already finished.
 --
 -- TECHNIQUE:
@@ -395,7 +395,7 @@ ORDER BY Quarter;
 
 
 -- ============================================================================
--- QUERY 8: Yearly PIVOT — State Activity Side by Side (2020-2024)
+-- QUERY 8: Yearly PIVOT - State Activity Side by Side (2020-2024)
 -- ============================================================================
 -- PURPOSE:
 -- Create a compact year-over-year comparison of each state's building

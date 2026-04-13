@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>US Construction Spending Analysis (2002–2016) — Tommy Nguyen</title>
+<title>US Construction Spending Analysis (2002–2016) | Tommy Nguyen</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--navy:#1A3A6B;--gold:#E8A500;--light-blue:#F0F4FA;--light-gold:#FFD055;--cream:#FFFDF0;--dark:#252423;--code-bg:#1e2a3a;--code-text:#c9d1d9}
@@ -113,9 +113,9 @@ p{margin:12px 0;font-size:15px}
 <span class="code-ref">analysis.py</span>
 </div>
 
-<p>In building materials sales, I feel construction spending cycles directly. When residential spending drops, tile and flooring orders drop with it. When a new hospital gets funded, the commercial team sees RFQs come through months later. I have always been curious about the numbers behind those gut feelings — how deep the GFC really cut, which sectors bounced back first, and whether the seasonal patterns I see in order books match what the national data says.</p>
+<p>In building materials sales, I feel construction spending cycles directly. When residential spending drops, tile and flooring orders drop with it. When a new hospital gets funded, the commercial team sees RFQs come through months later. I have always been curious about the numbers behind those gut feelings: how deep the GFC really cut, which sectors bounced back first, and whether the seasonal patterns I see in order books match what the national data says.</p>
 
-<p>The dataset covers January 2002 through January 2016 — a period that captures the pre-GFC boom, the crash itself, and the long recovery. It is broken down by sector (residential, commercial, manufacturing, etc.) and funding type (private vs public). The data comes from the US Census Bureau's Value of Construction Put in Place Survey.</p>
+<p>The dataset covers January 2002 through January 2016, a period that captures the pre-GFC boom, the crash itself, and the long recovery. It is broken down by sector (residential, commercial, manufacturing, etc.) and funding type (private vs public). The data comes from the US Census Bureau's Value of Construction Put in Place Survey.</p>
 
 <div class="code-block">
 <span class="kw">import</span> pandas <span class="kw">as</span> pd<br>
@@ -131,7 +131,7 @@ df = df.<span class="fn">sort_values</span>(<span class="str">"date"</span>).<sp
 
 <div class="finding reveal">
 <div class="finding-label">Where I Got Stuck</div>
-<p>The CSV column names were deeply nested — things like <code>current.combined.total construction</code>. My first instinct was to rename every column, but that would have been fragile and hard to maintain. Instead, I stored the long names as constants at the top of the script (e.g., <code>TOTAL = "current.combined.total construction"</code>). Ugly but practical — and it meant every reference downstream was unambiguous. From my years in building materials, I know that naming conventions in datasets are like SKU codes: annoying but critical to get right early.</p>
+<p>The CSV column names were deeply nested, things like <code>current.combined.total construction</code>. My first instinct was to rename every column, but that would have been fragile and hard to maintain. Instead, I stored the long names as constants at the top of the script (e.g., <code>TOTAL = "current.combined.total construction"</code>). Ugly but practical, and it meant every reference downstream was unambiguous. From my years in building materials, I know that naming conventions in datasets are like SKU codes: annoying but important to get right early.</p>
 </div>
 
 <!-- Section 2 -->
@@ -140,7 +140,7 @@ df = df.<span class="fn">sort_values</span>(<span class="str">"date"</span>).<sp
 <div class="research-q">
 <div class="rq-label">Research Question</div>
 <div class="rq-text">How has total US construction spending trended over 14 years, and what does the overall trajectory look like?</div>
-<span class="code-ref">analysis.py — Chart 1</span>
+<span class="code-ref">analysis.py - Chart 1</span>
 </div>
 
 <p>I started with the simplest possible view: total spending over time. The expectation was a general upward trend with some variation. What I found was more dramatic than expected.</p>
@@ -156,7 +156,7 @@ ax.<span class="fn">annotate</span>(<span class="str">f"GFC low\n{gfc_low['date'
 ax.yaxis.<span class="fn">set_major_formatter</span>(mticker.<span class="fn">StrMethodFormatter</span>(<span class="str">"${x:,.0f}B"</span>))
 </div>
 
-<p>On paper, construction spending increased around 30% between 2002 and 2016. But that number hides a brutal downturn in the middle. The GFC caused spending to fall nearly 16% in 2009 alone, and the trough did not arrive until 2011. For anyone in the industry during that period, those numbers match the reality — projects dried up, suppliers cut headcount, and the pipeline went quiet for years.</p>
+<p>On paper, construction spending increased around 30% between 2002 and 2016. But that number hides a brutal downturn in the middle. The GFC caused spending to fall nearly 16% in 2009 alone, and the trough did not arrive until 2011. For anyone in the industry during that period, those numbers match the reality: projects dried up, suppliers cut headcount, and the pipeline went quiet for years.</p>
 
 <div class="finding reveal">
 <div class="finding-label">Key Finding</div>
@@ -165,7 +165,7 @@ ax.yaxis.<span class="fn">set_major_formatter</span>(mticker.<span class="fn">St
 
 <div class="finding reveal">
 <div class="finding-label">What I Expected vs What I Found</div>
-<p>I expected to see a gradual climb with a visible dip around 2008–2009. What I found was that the dip was not a dip at all — it was a multi-year freefall that did not bottom out until 2011. The recovery was so gradual that it took until 2015 to match 2006 levels. If someone had told me "construction spending grew 30%," I would have imagined a completely different chart.</p>
+<p>I expected to see a gradual climb with a visible dip around 2008–2009. What I found was that the dip was not a dip at all. It was a multi-year freefall that did not bottom out until 2011. The recovery was so gradual that it took until 2015 to match 2006 levels. If someone had told me "construction spending grew 30%," I would have imagined a completely different chart.</p>
 </div>
 
 <!-- Section 3 -->
@@ -174,7 +174,7 @@ ax.yaxis.<span class="fn">set_major_formatter</span>(mticker.<span class="fn">St
 <div class="research-q">
 <div class="rq-label">Research Question</div>
 <div class="rq-text">How did the GFC reshape spending between residential and non-residential construction?</div>
-<span class="code-ref">analysis.py — Chart 2</span>
+<span class="code-ref">analysis.py - Chart 2</span>
 </div>
 
 <div class="code-block">
@@ -194,12 +194,12 @@ ax.<span class="fn">stackplot</span>(<br>
 
 <div class="finding reveal">
 <div class="finding-label">Key Finding</div>
-<p>Residential was the epicentre of the crash, dropping 60% from peak. Non-residential continued growing for two years after residential began falling — the total figure masked the early warning signs.</p>
+<p>Residential was the epicentre of the crash, dropping 60% from peak. Non-residential continued growing for two years after residential began falling, and the total figure masked the early warning signs.</p>
 </div>
 
 <div class="finding reveal">
 <div class="finding-label">Business Implication</div>
-<p>For a building materials business, diversifying across residential and commercial customers is not just a growth strategy — it is a risk management strategy. A supplier heavily concentrated in residential would have experienced a sharper revenue decline than one with a balanced book. From my years in building materials, the builders who survived 2008–2011 were the ones with both residential renovation and commercial project pipelines.</p>
+<p>For a building materials business, diversifying across residential and commercial customers is not just a growth strategy. It is a risk management strategy. A supplier heavily concentrated in residential would have experienced a sharper revenue decline than one with a balanced book. From my years in building materials, the builders who survived 2008–2011 were the ones with both residential renovation and commercial project pipelines.</p>
 </div>
 
 <!-- Section 4 -->
@@ -208,7 +208,7 @@ ax.<span class="fn">stackplot</span>(<br>
 <div class="research-q">
 <div class="rq-label">Research Question</div>
 <div class="rq-text">How does private vs public spending behave differently through economic cycles, and what role did government stimulus play?</div>
-<span class="code-ref">analysis.py — Chart 3</span>
+<span class="code-ref">analysis.py - Chart 3</span>
 </div>
 
 <div class="code-block">
@@ -217,7 +217,7 @@ ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[PRIVATE]
 ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[PUBLIC] / <span class="num">1000</span>, label=<span class="str">"Public"</span>, color=<span class="str">"#EF4444"</span>)
 </div>
 
-<p>When private construction spending cratered during the GFC, public spending — highways, schools, water infrastructure — stayed relatively flat or even increased, buoyed by federal stimulus programs. Private spending accounts for roughly 75% of total construction, so it drives the overall trend. But public spending is dramatically more stable.</p>
+<p>When private construction spending cratered during the GFC, public spending (highways, schools, water infrastructure) stayed relatively flat or even increased, buoyed by federal stimulus programs. Private spending accounts for roughly 75% of total construction, so it drives the overall trend. But public spending is dramatically more stable.</p>
 
 <div class="finding reveal">
 <div class="finding-label">Key Finding</div>
@@ -226,7 +226,7 @@ ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[PUBLIC] 
 
 <div class="finding reveal">
 <div class="finding-label">The Pivot Moment</div>
-<p>Initially I treated this as a simple two-line comparison. The pivot came when I realised the <em>timing</em> mattered more than the magnitude. Public spending increased precisely during 2009–2010, the worst private-sector years. That is not coincidence — it is counter-cyclical policy in action. This shifted my thinking: government contracts are not just "boring stable work." They are a structural hedge against private-market downturns. This is something I would now explicitly recommend to any supplier building their project pipeline.</p>
+<p>Initially I treated this as a simple two-line comparison. The pivot came when I realised the <em>timing</em> mattered more than the magnitude. Public spending increased precisely during 2009–2010, the worst private-sector years. That is not coincidence. It is counter-cyclical policy in action. This shifted my thinking: government contracts are not just "boring stable work." They are a structural hedge against private-market downturns. This is something I would now explicitly recommend to any supplier building their project pipeline.</p>
 </div>
 
 <!-- Section 5 -->
@@ -235,7 +235,7 @@ ax.<span class="fn">plot</span>(df[<span class="str">"date"</span>], df[PUBLIC] 
 <div class="research-q">
 <div class="rq-label">Research Question</div>
 <div class="rq-text">Which construction sectors grew the fastest from 2002 to 2016, and which stalled or declined?</div>
-<span class="code-ref">analysis.py — Chart 4</span>
+<span class="code-ref">analysis.py - Chart 4</span>
 </div>
 
 <div class="code-block">
@@ -276,7 +276,7 @@ ax.<span class="fn">barh</span>(sdf[<span class="str">"Sector"</span>], sdf[<spa
 <div class="research-q">
 <div class="rq-label">Research Question</div>
 <div class="rq-text">Is there a consistent seasonal pattern in construction spending that sales teams can plan around?</div>
-<span class="code-ref">analysis.py — Chart 5</span>
+<span class="code-ref">analysis.py - Chart 5</span>
 </div>
 
 <div class="code-block">
@@ -286,7 +286,7 @@ monthly_avg = df.<span class="fn">groupby</span>(<span class="str">"month"</span
 ax.<span class="fn">bar</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">13</span>), monthly_avg.values, color=<span class="str">"#6366F1"</span>)
 </div>
 
-<p>Spending peaks reliably between June and August and dips in January and February. The pattern holds across years, making it genuinely useful for planning. For a building materials business, Q1 is the time to build pipeline — the orders placed in March and April deliver into peak construction months.</p>
+<p>Spending peaks reliably between June and August and dips in January and February. The pattern holds across years, making it genuinely useful for planning. For a building materials business, Q1 is the time to build pipeline. The orders placed in March and April deliver into peak construction months.</p>
 
 <div class="finding reveal">
 <div class="finding-label">Key Finding</div>
@@ -295,7 +295,7 @@ ax.<span class="fn">bar</span>(<span class="fn">range</span>(<span class="num">1
 
 <div class="finding reveal">
 <div class="finding-label">Where I Got Stuck</div>
-<p>The seasonal pattern looked surprisingly flat at first, which confused me. Then I re-read the Census Bureau methodology: the data is reported as <em>seasonally-adjusted annual rates</em>, not raw monthly figures. The seasonal adjustment removes the very signal I was looking for. The near-flat monthly pattern was partly by design. To see true seasonality, I would need the unadjusted series. I almost published this chart without that caveat, which would have been misleading. Looking back, I should have checked the data methodology note before running any seasonal analysis — that is basic due diligence I skipped in my excitement to see patterns.</p>
+<p>The seasonal pattern looked surprisingly flat at first, which confused me. Then I re-read the Census Bureau methodology: the data is reported as <em>seasonally-adjusted annual rates</em>, not raw monthly figures. The seasonal adjustment removes the very signal I was looking for. The near-flat monthly pattern was partly by design. To see true seasonality, I would need the unadjusted series. I almost published this chart without that caveat, which would have been misleading. Looking back, I should have checked the data methodology note before running any seasonal analysis. That is basic due diligence I skipped in my excitement to see patterns.</p>
 </div>
 
 <!-- Section 7 -->
@@ -304,7 +304,7 @@ ax.<span class="fn">bar</span>(<span class="fn">range</span>(<span class="num">1
 <div class="research-q">
 <div class="rq-label">Research Question</div>
 <div class="rq-text">What does the year-over-year growth trajectory tell us about recovery momentum after the GFC?</div>
-<span class="code-ref">analysis.py — Chart 6</span>
+<span class="code-ref">analysis.py - Chart 6</span>
 </div>
 
 <div class="code-block">
@@ -316,16 +316,16 @@ colors_yoy = [<span class="str">"#EF4444"</span> <span class="kw">if</span> v &l
 ax.<span class="fn">bar</span>(yoy.index, yoy.values, color=colors_yoy)
 </div>
 
-<p>After the sharp contraction of 2008–2010, growth turned positive in 2012 and stayed positive through 2015. But the growth rate was modest — mostly in the 4–8% range — not the kind of V-shaped recovery one might expect after such a deep decline. This gradual recovery is consistent with tight lending conditions and cautious sentiment in the construction industry post-GFC.</p>
+<p>After the sharp contraction of 2008–2010, growth turned positive in 2012 and stayed positive through 2015. But the growth rate was modest, mostly in the 4–8% range, not the kind of V-shaped recovery one might expect after such a deep decline. This gradual recovery is consistent with tight lending conditions and cautious sentiment in the construction industry post-GFC.</p>
 
 <div class="finding reveal">
 <div class="finding-label">Key Finding</div>
-<p>The YoY chart makes the recovery dynamics clear: contraction peaked at -15.7% in 2009, then growth turned positive in 2012 at a modest 4–8%. Post-downturn recoveries in construction are slow and steady, not sudden — which matters for hiring, inventory, and capex planning.</p>
+<p>The YoY chart makes the recovery dynamics clear: contraction peaked at -15.7% in 2009, then growth turned positive in 2012 at a modest 4–8%. Post-downturn recoveries in construction are slow and steady, not sudden, which matters for hiring, inventory, and capex planning.</p>
 </div>
 
 <div class="finding reveal">
 <div class="finding-label">Business Implication</div>
-<p>Anyone who assumed a quick bounce-back after the GFC would have been wrong for years. Residential spending did not return to its pre-GFC level within the dataset period. That is nearly a decade of below-peak spending — a lost decade for residential construction. For sales forecasting, this suggests conservative projections are warranted after a major downturn, even when the headline numbers are improving.</p>
+<p>Anyone who assumed a quick bounce-back after the GFC would have been wrong for years. Residential spending did not return to its pre-GFC level within the dataset period. That is nearly a decade of below-peak spending, a lost decade for residential construction. For sales forecasting, this suggests conservative projections are warranted after a major downturn, even when the headline numbers are improving.</p>
 </div>
 
 <!-- Section 8 -->
@@ -339,20 +339,25 @@ ax.<span class="fn">bar</span>(yoy.index, yoy.values, color=colors_yoy)
 
 <p><strong>The biggest mistake</strong> was not checking the data methodology before running the seasonal analysis. The Census Bureau reports seasonally-adjusted annual rates, which means the seasonal pattern I was looking for had already been smoothed out of the data. I spent two hours building and styling that chart before realising the signal was muted by design. The lesson: always read the data dictionary first.</p>
 
-<p><strong>A Pandas gotcha that cost me time:</strong> When building the sector growth comparison, my initial approach used <code>df.iloc[0]</code> and <code>df.iloc[-1]</code> to grab the first and last rows. This works fine <em>after</em> sorting by date, but I initially forgot to sort. The "first" row was not January 2002 — it was whatever came first in the raw CSV. The growth percentages were nonsensical until I added <code>df.sort_values("date").reset_index(drop=True)</code>. A simple mistake, but one that would have produced a convincingly wrong chart.</p>
+<p><strong>A Pandas gotcha that cost me time:</strong> When building the sector growth comparison, my initial approach used <code>df.iloc[0]</code> and <code>df.iloc[-1]</code> to grab the first and last rows. This works fine <em>after</em> sorting by date, but I initially forgot to sort. The "first" row was not January 2002. It was whatever came first in the raw CSV. The growth percentages were nonsensical until I added <code>df.sort_values("date").reset_index(drop=True)</code>. A simple mistake, but one that would have produced a convincingly wrong chart.</p>
 
 <p><strong>Matplotlib formatting:</strong> The default y-axis labels showed raw numbers like "800000" which were unreadable. I had to use <code>mticker.StrMethodFormatter("${x:,.0f}B")</code> to get clean "$800B" labels. This is boilerplate I now have in a snippet file, but the first time through it took me 20 minutes to find the right formatter class. Matplotlib's ticker API is powerful but not intuitive.</p>
 
-<p><strong>The chart that changed my thinking:</strong> The residential vs non-residential split was the pivot moment. Before that chart, I was looking at aggregate numbers and drawing aggregate conclusions. After splitting the data, I realised the aggregate masked a critical lead-lag dynamic. Residential was already in decline before total spending peaked. That insight — that the total number can be misleading because components move at different speeds — reshaped every subsequent analysis. I started asking "what does this look like when I split it?" for every metric.</p>
+<p><strong>The chart that changed my thinking:</strong> The residential vs non-residential split was the pivot moment. Before that chart, I was looking at aggregate numbers and drawing aggregate conclusions. After splitting the data, I realised the aggregate masked a lead-lag dynamic I had not seen before. Residential was already in decline before total spending peaked. That insight, that the total number can be misleading because components move at different speeds, reshaped every subsequent analysis. I started asking "what does this look like when I split it?" for every metric.</p>
 
 <div class="finding reveal">
 <div class="finding-label">Honest Self-Critique</div>
-<p>Looking back, I should have done three things differently. First, read the Census Bureau methodology note before any analysis — not after discovering the seasonal data was pre-smoothed. Second, explored regional breakdowns instead of stopping at national data. National figures smooth over significant geographic variation that would be more actionable for a sales team covering specific territories.</p>
+<p>Looking back, I should have done three things differently. First, read the Census Bureau methodology note before any analysis, not after discovering the seasonal data was pre-smoothed. Second, explored regional breakdowns instead of stopping at national data. National figures smooth over significant geographic variation that would be more actionable for a sales team covering specific territories.</p>
 </div>
 
 <div class="finding reveal">
 <div class="finding-label">What I Would Investigate Next</div>
-<p><strong>Regional breakdown:</strong> National data smooths over significant geographic variation. The Sun Belt and Midwest likely had very different recovery curves. <strong>Leading indicators:</strong> Can building permits predict spending trends with a 6–12 month lead? <strong>Material cost correlation:</strong> When spending rises, do material costs rise with it? <strong>Post-2016 trends:</strong> Extending through 2024 would capture the post-COVID construction boom and infrastructure legislation.</p>
+<ul style="font-size:14px;color:#444;padding-left:18px;margin-top:6px;">
+<li>Regional breakdown: National data smooths over significant geographic variation. The Sun Belt and Midwest likely had very different recovery curves.</li>
+<li>Leading indicators: Can building permits predict spending trends with a 6–12 month lead?</li>
+<li>Material cost correlation: When spending rises, do material costs rise with it?</li>
+<li>Post-2016 trends: Extending through 2024 would capture the post-COVID construction boom and infrastructure legislation.</li>
+</ul>
 </div>
 
 </div>
